@@ -10,6 +10,10 @@ export class GatewayService {
     try {
       const customHeaders = { ...headers };
       delete customHeaders['content-length'];
+      // Make sure the Content-Type header is passed for POST requests
+      if (method === 'POST' && !customHeaders['content-type']) {
+        customHeaders['content-type'] = 'application/json';
+      }
       const response = await lastValueFrom(
         this.httpService.request({
           url,
