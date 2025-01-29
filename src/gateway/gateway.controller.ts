@@ -29,13 +29,13 @@ export class GatewayController {
   private mapRouteToService(path: string): string {
     const normalizedPath = path.replace(/^\/api\/v1/, ''); // Removes '/api/v1' from the start of the path
 
-    if (normalizedPath.startsWith('/doctor')) {
+    if (normalizedPath.startsWith('/doctor/v1')) {
       return `http://doctor:3001${normalizedPath}`;
-    } else if (normalizedPath.startsWith('/pharmacy')) {
+    } else if (normalizedPath.startsWith('/pharmacy/v1')) {
       return `http://pharmacy:3002${normalizedPath}`;
-    } else if (normalizedPath.startsWith('/medicine')) {
+    } else if (normalizedPath.startsWith('/medicine/v1')) {
       return `http://medicine:3003${normalizedPath}`;
-    } else if (normalizedPath.startsWith('/auth')) {
+    } else if (normalizedPath.startsWith('/auth/v1')) {
       return `http://auth:3004${normalizedPath}`;
     }
 
