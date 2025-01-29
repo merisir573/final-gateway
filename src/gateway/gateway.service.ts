@@ -19,7 +19,7 @@ export class GatewayService {
           url,
           method,
           data,
-          headers: customHeaders,
+          headers: headers,
           params: query,
         }),
       );
