@@ -1,5 +1,5 @@
 # Use Node.js as the base image
-FROM node:16
+FROM node:18
 
 # Set the working directory
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "npm install && npm run build && npm run start"]
