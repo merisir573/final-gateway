@@ -27,14 +27,15 @@ export class GatewayController {
   }
 
   private mapRouteToService(path: string): string {
+
     if (path.startsWith('/doctor/v1')) {
-      return `https://finals-doctor.onrender.com${path.replace('/doctor/v1', '')}`;
+      return `https://finals-doctor.onrender.com${path}`;
     } else if (path.startsWith('/pharmacy/v1')) {
-      return `https://finals-pharmacy.onrender.com${path.replace('/pharmacy/v1', '')}`;
+      return `https://finals-pharmacy.onrender.com${path}`;
     } else if (path.startsWith('/medicine/v1')) {
-      return `https://finals-medicine.onrender.com${path.replace('/medicine/v1', '')}`;
+      return `https://finals-medicine.onrender.com${path}`;
     } else if (path.startsWith('/auth/v1')) {
-      return `https://finals-auth.onrender.com${path.replace('/auth/v1', '')}`;
+      return `https://finals-auth.onrender.com${path}`;
     }
 
     throw new Error('Route not found');
