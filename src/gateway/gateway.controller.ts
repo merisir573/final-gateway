@@ -27,16 +27,15 @@ export class GatewayController {
   }
 
   private mapRouteToService(path: string): string {
-    const normalizedPath = path.replace(/^\/api\/v1/, ''); // Removes '/api/v1' from the start of the path
 
-    if (normalizedPath.startsWith('/doctor/v1')) {
-      return `http://doctor:3001${normalizedPath}`;
-    } else if (normalizedPath.startsWith('/pharmacy/v1')) {
-      return `http://pharmacy:3002${normalizedPath}`;
-    } else if (normalizedPath.startsWith('/medicine/v1')) {
-      return `http://medicine:3003${normalizedPath}`;
-    } else if (normalizedPath.startsWith('/auth/v1')) {
-      return `http://auth:3004${normalizedPath}`;
+    if (path.startsWith('/doctor/v1')) {
+      return `https://finals-doctor.onrender.com${path}`;
+    } else if (path.startsWith('/pharmacy/v1')) {
+      return `https://finals-pharmacy.onrender.com${path}`;
+    } else if (path.startsWith('/medicine/v1')) {
+      return `https://finals-medicine.onrender.com${path}`;
+    } else if (path.startsWith('/auth/v1')) {
+      return `https://finals-auth.onrender.com${path}`;
     }
 
     throw new Error('Route not found');
