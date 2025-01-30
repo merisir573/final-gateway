@@ -2,8 +2,8 @@ name: Update Medicine Database
 
 on:
   schedule:
-    - cron: "*/5 * * * *" # Runs every day at midnight UTC (adjust as needed)
-  workflow_dispatch: # Allows manual triggering from GitHub Actions
+    - cron: "0 22 * * SUN"
+  workflow_dispatch:
 
 jobs:
   update-db:
