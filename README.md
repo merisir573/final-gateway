@@ -33,6 +33,7 @@ Video Link:
 https://youtu.be/cOBk9qv27sI (NOTE 5: The video is send only, if it doesn't work, please send an E-Mail so I can change it to public)
 
 ---My Design & Data Model---
+
 For the most part the designs are pretty straightforward.
 
 Gateway: Checks the route and redirects accordingly.
