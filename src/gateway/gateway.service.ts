@@ -33,6 +33,8 @@ export class GatewayService {
     );
     console.log('Full URL with query parameters:', fullUrl.toString());
 
+    // we know the options is correct up until here
+
     // Switch method to handle GET, POST, PUT, DELETE
     switch (method) {
       case 'POST':

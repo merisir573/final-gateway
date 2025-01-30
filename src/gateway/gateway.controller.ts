@@ -1,52 +1,28 @@
-import { Controller, All, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { GatewayService } from './gateway.service';
+import { Controller, Post, Get, Query, Body } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { GatewayService } from './gateway.service';  // Make sure to import your GatewayService
+import { firstValueFrom } from 'rxjs';
 
 @Controller('api/v1')
 export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) {}
 
-  @All('*')
-  async forward(@Req() req: Request, @Res() res: Response) {
-    const { method, body, query, headers, path } = req;
-    console.log('Received query parameters:', query);
-
-    // Log for debugging purposes
-    console.log('Received request method:', method);
-    console.log('Received request path:', path);
-
-    const targetServiceUrl = this.mapRouteToService(path);
-    console.log('Target service URL:', targetServiceUrl);
-
+  @Get('medicine/v1/search')
+  async queryListings(@Query() queryParams: { noOfPeople: number; country: string; city: string }) {
     try {
-      const response = await this.gatewayService.forwardRequest(
-        targetServiceUrl,
-        method,
-        body,
-        query,
-        headers
+      const response = await firstValueFrom(
+        this.gatewayService.forwardRequest(
+          'https://finals-medicine.onrender.com/medicine/v1/search',
+          'GET',
+          null,  // No body for GET requests
+          queryParams, // Use queryParams for GET
+          {} // No custom headers for now
+        )
       );
-      res.status(200).json(response);
+      return response;
     } catch (error) {
-      res.status(error.status || 500).json({ error: error.message });
+      console.error('Error forwarding the request to Query Listings', error);
+      return { status: 'Error', message: 'Failed to query listings' };
     }
-  }
-
-  // Method to dynamically map routes to the corresponding services
-  private mapRouteToService(path: string): string {
-    // Strip the '/api/v1' prefix from the incoming path
-    const pathWithoutPrefix = path.replace(/^\/api\/v1/, '');
-
-    if (pathWithoutPrefix.startsWith('/medicine/v1')) {
-      return `https://finals-medicine.onrender.com${pathWithoutPrefix}`;
-    } else if (pathWithoutPrefix.startsWith('/doctor/v1')) {
-      return `https://finals-doctor.onrender.com${pathWithoutPrefix}`;
-    } else if (pathWithoutPrefix.startsWith('/pharmacy/v1')) {
-      return `https://finals-pharmacy.onrender.com${pathWithoutPrefix}`;
-    } else if (pathWithoutPrefix.startsWith('/auth/v1')) {
-      return `https://finals-auth.onrender.com${pathWithoutPrefix}`;
-    }
-
-    throw new Error('Route not found');
   }
 }
