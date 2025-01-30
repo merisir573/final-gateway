@@ -16,7 +16,7 @@ https://github.com/merisir573/final-frontend
 
 Deployed Links (NOTE 3: Due to the nature of the Free Tier on Render, the longer a service remains deployed the slower it becomes, as such trying to use the services may result in a 1-2 minute delay, rest assured the system is working it is just taking a while.)
 
-https://finals-frontend-tc7g.onrender.com/doctor
+https://finals-frontend-tc7g.onrender.com/ (NOTE 4: You will have to click on one of the pages on the top left.)
 
 https://finals-auth.onrender.com
 
@@ -30,7 +30,7 @@ https://finals-pharmacy.onrender.com
 
 Video Link:
 
-https://youtu.be/cOBk9qv27sI (NOTE: The video is send only, if it doesn't work, please send an E-Mail so I can change it to public)
+https://youtu.be/cOBk9qv27sI (NOTE 5: The video is send only, if it doesn't work, please send an E-Mail so I can change it to public)
 
 ---My Design---
 For the most part the designs are pretty straightforward.
