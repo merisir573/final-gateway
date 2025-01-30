@@ -8,7 +8,7 @@ export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) {}
 
   @Get('medicine/v1/search')
-  async queryListings(@Query() queryParams: { noOfPeople: number; country: string; city: string }) {
+  async queryListings(@Query() queryParams: { name: string, page: number }) {
     try {
       const response = await firstValueFrom(
         this.gatewayService.forwardRequest(
