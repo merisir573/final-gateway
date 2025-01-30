@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import { AxiosRequestConfig } from 'axios';
 
 @Injectable()
 export class GatewayService {
   constructor(private readonly httpService: HttpService) {}
 
-  // General method for forwarding requests dynamically
   forwardRequest(
     url: string,
     method: string,
@@ -15,38 +15,67 @@ export class GatewayService {
     query: any,
     headers: any
   ): Observable<any> {
-    const options = {
-      headers
+    // Set the correct options for the HTTP request
+    const options: AxiosRequestConfig = {
+      headers,
+      params: query, // Pass query parameters here
+      data,
     };
 
+    // Log the URL and query parameters
+    console.log('Target service URL:', url);
     console.log('Received query parameters (Service):', query);
-    console.log('Received query parameters (Service):', options);
-    console.log('Received query parameters (Service):', this.httpService.get(url, options).pipe(map((response) => response.data)));
 
-    const queryString = new URLSearchParams(query).toString();
-    const fullUrl = `${url}?${queryString}`;
+    // Ensure the correct URL and params are logged
+    const fullUrl = new URL(url, 'http://dummy.base'); // Base URL for the query
+    Object.keys(query).forEach((key) =>
+      fullUrl.searchParams.append(key, query[key])
+    );
+    console.log('Full URL with query parameters:', fullUrl.toString());
 
-    if (method === 'POST') {
-      return this.httpService.post(fullUrl, data, options).pipe(map((response) => {
-        console.log('Response from target service (POST):', response.data);  // Log the response data
-        return response.data;
-      }));
-    } else if (method === 'PUT') {
-      return this.httpService.put(fullUrl, data, options).pipe(map((response) => {
-        console.log('Response from target service (PUT):', response.data);  // Log the response data
-        return response.data;
-      }));
-    } else if (method === 'DELETE') {
-      return this.httpService.delete(fullUrl, options).pipe(map((response) => {
-        console.log('Response from target service (DELETE):', response.data);  // Log the response data
-        return response.data;
-      }));
-    } else {
-      // For GET request
-      return this.httpService.get(fullUrl, options).pipe(map((response) => {
-        console.log('Response from target service (GET):', response.data);  // Log the response data
-        return response.data;
-      }));
+    // Switch method to handle GET, POST, PUT, DELETE
+    switch (method) {
+      case 'POST':
+        return this.httpService
+          .post(url, data, options)
+          .pipe(
+            map((response) => response.data),
+            catchError((error) => {
+              console.error('POST request error:', error);
+              throw error;
+            })
+          );
+      case 'PUT':
+        return this.httpService
+          .put(url, data, options)
+          .pipe(
+            map((response) => response.data),
+            catchError((error) => {
+              console.error('PUT request error:', error);
+              throw error;
+            })
+          );
+      case 'DELETE':
+        return this.httpService
+          .delete(url, options)
+          .pipe(
+            map((response) => response.data),
+            catchError((error) => {
+              console.error('DELETE request error:', error);
+              throw error;
+            })
+          );
+      default:
+        // Default to GET for any other method
+        return this.httpService
+          .get(url, options)
+          .pipe(
+            map((response) => response.data),
+            catchError((error) => {
+              console.error('GET request error:', error);
+              throw error;
+            })
+          );
     }
   }
 }
