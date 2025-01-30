@@ -21,16 +21,20 @@ export class GatewayService {
       data,
     };
 
+    const queryString = new URLSearchParams(query).toString();
+    const fullUrl = `${url}?${queryString}`;
+
+
     // Forward the request using the appropriate HTTP method
     if (method === 'POST') {
-      return this.httpService.post(url, data, options).pipe(map((response) => response.data));
+      return this.httpService.post(fullUrl, data, { headers }).pipe(map((response) => response.data));
     } else if (method === 'PUT') {
-      return this.httpService.put(url, data, options).pipe(map((response) => response.data));
+      return this.httpService.put(fullUrl, data, { headers }).pipe(map((response) => response.data));
     } else if (method === 'DELETE') {
-      return this.httpService.delete(url, options).pipe(map((response) => response.data));
+      return this.httpService.delete(fullUrl, { headers }).pipe(map((response) => response.data));
     } else {
       // Default to GET for any other method
-      return this.httpService.get(url, options).pipe(map((response) => response.data));
+      return this.httpService.get(fullUrl, { headers }).pipe(map((response) => response.data));
     }
   }
 }
