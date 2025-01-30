@@ -1,0 +1,14 @@
+name: Update Medicine Database
+
+on:
+  schedule:
+    - cron: "0/5 0 * * *" # Runs every day at midnight UTC (adjust as needed)
+  workflow_dispatch: # Allows manual triggering from GitHub Actions
+
+jobs:
+  update-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Render API to update medicines
+        run: |
+          curl -X GET https://finals-gateway.onrender.com/api/v1/medicine/v1/update
