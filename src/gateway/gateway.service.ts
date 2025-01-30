@@ -18,6 +18,7 @@ export class GatewayService {
     console.log('Received query parameters (Service):', query);
     const queryString = new URLSearchParams(query).toString();
     const fullUrl = `${url}?${queryString}`;
+    console.log('FullURL:', fullUrl);
 
 
     // Forward the request using the appropriate HTTP method
