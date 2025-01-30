@@ -1,30 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { lastValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class GatewayService {
   constructor(private readonly httpService: HttpService) {}
 
-  async forwardRequest(url: string, method: string, data?: any, query?: any, headers?: any) {  
-    try {
-      const customHeaders = { ...headers };
-      delete customHeaders['content-length'];
-      const response = await lastValueFrom(
-        this.httpService.request({
-          url,
-          method,
-          data,
-          headers: customHeaders,
-          params: query,
-        }),
-      );
-      console.log('Response from service:', response);
-      return response.data;
-    } catch (error) {
-      console.log('Error while forwarding request:', error); // Log error details
-      throw error.response?.data || new Error('Error forwarding request');
+  // General method for forwarding requests dynamically
+  forwardRequest(
+    url: string,
+    method: string,
+    data: any,
+    query: any,
+    headers: any
+  ): Observable<any> {
+    const options = {
+      headers,
+      params: query,
+      data,
+    };
+
+    // Forward the request using the appropriate HTTP method
+    if (method === 'POST') {
+      return this.httpService.post(url, data, options).pipe(map((response) => response.data));
+    } else if (method === 'PUT') {
+      return this.httpService.put(url, data, options).pipe(map((response) => response.data));
+    } else if (method === 'DELETE') {
+      return this.httpService.delete(url, options).pipe(map((response) => response.data));
+    } else {
+      // Default to GET for any other method
+      return this.httpService.get(url, options).pipe(map((response) => response.data));
     }
   }
-  
 }
