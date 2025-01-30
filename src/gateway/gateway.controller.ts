@@ -33,14 +33,17 @@ export class GatewayController {
 
   // Method to dynamically map routes to the corresponding services
   private mapRouteToService(path: string): string {
-    if (path.startsWith('/medicine/v1')) {
-      return `https://finals-medicine.onrender.com${path}`;
-    } else if (path.startsWith('/doctor/v1')) {
-      return `https://finals-doctor.onrender.com${path}`;
-    } else if (path.startsWith('/pharmacy/v1')) {
-      return `https://finals-pharmacy.onrender.com${path}`;
-    } else if (path.startsWith('/auth/v1')) {
-      return `https://finals-auth.onrender.com${path}`;
+    // Strip the '/api/v1' prefix from the incoming path
+    const pathWithoutPrefix = path.replace(/^\/api\/v1/, '');
+
+    if (pathWithoutPrefix.startsWith('/medicine/v1')) {
+      return `https://finals-medicine.onrender.com${pathWithoutPrefix}`;
+    } else if (pathWithoutPrefix.startsWith('/doctor/v1')) {
+      return `https://finals-doctor.onrender.com${pathWithoutPrefix}`;
+    } else if (pathWithoutPrefix.startsWith('/pharmacy/v1')) {
+      return `https://finals-pharmacy.onrender.com${pathWithoutPrefix}`;
+    } else if (pathWithoutPrefix.startsWith('/auth/v1')) {
+      return `https://finals-auth.onrender.com${pathWithoutPrefix}`;
     }
 
     throw new Error('Route not found');
