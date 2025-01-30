@@ -15,12 +15,7 @@ export class GatewayService {
     query: any,
     headers: any
   ): Observable<any> {
-    const options = {
-      headers,
-      params: query,
-      data,
-    };
-
+    console.log('Received query parameters (Service):', query);
     const queryString = new URLSearchParams(query).toString();
     const fullUrl = `${url}?${queryString}`;
 
