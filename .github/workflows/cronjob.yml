@@ -2,7 +2,7 @@ name: Update Medicine Database
 
 on:
   schedule:
-    - cron: "0/5 0 * * *" # Runs every day at midnight UTC (adjust as needed)
+    - cron: "*/5 * * * *" # Runs every day at midnight UTC (adjust as needed)
   workflow_dispatch: # Allows manual triggering from GitHub Actions
 
 jobs:
