@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Controller('api/v1')
 export class GatewayController {
-  constructor(private readonly gatewayService: GatewayService) {}
+  constructor(private readonly gatewayService: HttpService) {}
 
   @Post('auth/v1/register')
   async register(@Body() body: { username: string, password: string }) {
