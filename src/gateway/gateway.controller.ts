@@ -9,6 +9,7 @@ export class GatewayController {
   @All('*')
   async forward(@Req() req: Request, @Res() res: Response) {
     const { method, body, query, headers, path } = req;
+    console.log('Received query parameters:', query);
 
     // Log for debugging purposes
     console.log('Received request method:', method);
