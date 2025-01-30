@@ -14,7 +14,7 @@ https://github.com/merisir573/final-pharmacy
 
 https://github.com/merisir573/final-frontend
 
-Deployed Links (NOTE 3: Due to the nature of the Free Tier on Render, the longer a service remains deployed the slower it becomes, as such trying to use the services may result in a 1-2 minute delay, rest assured the system is working it is just taking a while.)
+Deployed Links (NOTE 3: Due to the nature of the Free Tier on Render, the longer a service remains deployed the slower it becomes, as such trying to use the services may result in a 1-2 minute delay, rest assured the system is working it is just taking a while.):
 
 https://finals-frontend-tc7g.onrender.com/ (NOTE 4: You will have to click on one of the pages on the top left.)
 
@@ -32,7 +32,7 @@ Video Link:
 
 https://youtu.be/cOBk9qv27sI (NOTE 5: The video is send only, if it doesn't work, please send an E-Mail so I can change it to public)
 
----My Design---
+---My Design & Data Model---
 For the most part the designs are pretty straightforward.
 
 Gateway: Checks the route and redirects accordingly.
@@ -46,6 +46,8 @@ Medicine: On initialization scrapes the topmost excel found in https://www.titck
 Auth: Uses JWT, the strategy it uses is to get "Bearer" +  [ACCESSKEY] which is generated upon a successful login. Keeps a repo of users which get registered upon a successful register. Uses username and password as its two values.
 
 Frontend: Uses Tailwind for the CSS and Vite for the site. Uses textboxes for data which is jsonified and then upon a button press directs that data using via the gateway. Upon a successful login the access key is kept so as to be passed into the gateway's header whenever needed.
+
+[Data Model (Click Here)](https://imgur.com/a/WBKt4RJ) (NOTE 6: The image is send only, if it doesn't work, please send an E-Mail so I can change it to public)
 
 ---Assumptions Made---
 
