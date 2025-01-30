@@ -16,25 +16,37 @@ export class GatewayService {
     headers: any
   ): Observable<any> {
     const options = {
-      headers,
-      params: query,
-      data,
+      headers
     };
 
     console.log('Received query parameters (Service):', query);
     console.log('Received query parameters (Service):', options);
     console.log('Received query parameters (Service):', this.httpService.get(url, options).pipe(map((response) => response.data)));
 
-    // Forward the request using the appropriate HTTP method
+    const queryString = new URLSearchParams(query).toString();
+    const fullUrl = `${url}?${queryString}`;
+
     if (method === 'POST') {
-      return this.httpService.post(url, data, options).pipe(map((response) => response.data));
+      return this.httpService.post(fullUrl, data, options).pipe(map((response) => {
+        console.log('Response from target service (POST):', response.data);  // Log the response data
+        return response.data;
+      }));
     } else if (method === 'PUT') {
-      return this.httpService.put(url, data, options).pipe(map((response) => response.data));
+      return this.httpService.put(fullUrl, data, options).pipe(map((response) => {
+        console.log('Response from target service (PUT):', response.data);  // Log the response data
+        return response.data;
+      }));
     } else if (method === 'DELETE') {
-      return this.httpService.delete(url, options).pipe(map((response) => response.data));
+      return this.httpService.delete(fullUrl, options).pipe(map((response) => {
+        console.log('Response from target service (DELETE):', response.data);  // Log the response data
+        return response.data;
+      }));
     } else {
-      // Default to GET for any other method
-      return this.httpService.get(url, options).pipe(map((response) => response.data));
+      // For GET request
+      return this.httpService.get(fullUrl, options).pipe(map((response) => {
+        console.log('Response from target service (GET):', response.data);  // Log the response data
+        return response.data;
+      }));
     }
   }
 }
